@@ -1,3 +1,9 @@
+//加载共享库
+@Library("devops") _
+
+//引用共享库
+def build = new org.devops.Build()
+
 currentBuild.description = "branchName: ${env.branchName}"
 pipeline {
 	agent { label 'build01'}
@@ -20,11 +26,10 @@ pipeline {
 		stage("Build"){
 			steps {
 				script{
-
-
+					//调用共享库中的build方法
+					build.Build()
 				}
 			}
-
 		}
 
 		stage("Test"){
@@ -33,8 +38,8 @@ pipeline {
 			}			
 			steps{
 				script{
-					sh "gradle test"
-
+					//调用共享库中的test方法
+					build.UnitTest()
 				}
 			}
 		}
